@@ -1,3 +1,4 @@
+from keep_alive import keep_alive
 import asyncio, logging, sqlite3, os, sys
 from aiogram import Bot, Dispatcher, types, F
 from aiogram.filters import Command
@@ -8,8 +9,6 @@ from aiogram.fsm.context import FSMContext
 from aiogram.exceptions import TelegramNetworkError
 
 # ================= CONFIG =================
-import os
-
 TOKEN = os.getenv("TOKEN")
 ADMIN_ID = int(os.getenv("ADMIN_ID", "5001039092"))
 
@@ -67,7 +66,6 @@ def admin_kb():
            types.InlineKeyboardButton(text="📢 Broadcast", callback_data="adm_bc"))
     kb.row(types.InlineKeyboardButton(text="⚙️ Edit Socials", callback_data="adm_soc"),
            types.InlineKeyboardButton(text="📞 Manage Phones", callback_data="adm_phn"))
-    # ইউজার মুডে ফেরার বাটন
     kb.row(types.InlineKeyboardButton(text="⬅️ Back to User Mode", callback_data="main"))
     return kb.as_markup()
 
@@ -220,6 +218,7 @@ async def main():
             await asyncio.sleep(10)
 
 if __name__ == "__main__":
+    keep_alive()
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     try:
         asyncio.run(main())
